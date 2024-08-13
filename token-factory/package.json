@@ -1,0 +1,19 @@
+{
+  "name": "@tokene/token-factory-subgraph",
+  "license": "MIT",
+  "scripts": {
+    "compile": "graph codegen && graph build",
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "test": "graph test",
+    "create-local": "graph create --node http://localhost:8020/ token-factory",
+    "remove-local": "graph remove --node http://localhost:8020/ token-factory",
+    "deploy-local": "npm run compile && graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 --version-label 1.0.0 token-factory",
+    "update-config": "node scripts/config-parser.js"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "^0.80.0",
+    "@graphprotocol/graph-ts": "^0.35.1",
+    "matchstick-as": "0.6.0"
+  }
+}

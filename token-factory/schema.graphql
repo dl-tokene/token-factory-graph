@@ -1,0 +1,43 @@
+type TERC20 @entity {
+  id: Bytes! # address of deployed token
+  name: String!
+  symbol: String!
+  decimals: BigInt!
+  contractURI: String!
+  totalSupplyCap: BigInt!
+
+  totalSupply: BigInt!
+  balances: [WalletTERC20!]! @derivedFrom(field: "token")
+}
+
+type TERC721 @entity {
+  id: Bytes! # address of deployed token
+  name: String!
+  symbol: String!
+  contractURI: String!
+  baseURI: String!
+  totalSupplyCap: BigInt!
+
+  totalSupply: BigInt!
+  balances: [WalletTERC721!]! @derivedFrom(field: "token")
+}
+
+type WalletTERC20 @entity {
+  id: ID! # address of deployed token + wallet address
+  usersWallet: Wallet!
+  token: TERC20!
+  balance: BigInt!
+}
+
+type WalletTERC721 @entity {
+  id: ID! # address of deployed token + wallet address
+  usersWallet: Wallet!
+  token: TERC721!
+  nftIds: [BigInt!]!
+}
+
+type Wallet @entity {
+  id: Bytes! # address
+  erc20: [WalletTERC20!]! @derivedFrom(field: "usersWallet")
+  erc721: [WalletTERC721!]! @derivedFrom(field: "usersWallet")
+}

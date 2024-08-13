@@ -1,0 +1,68 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: TokenFactory
+    network: mainnet
+    source:
+      address: "0x0000000000000000000000000000000000000001"
+      abi: TokenFactory
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/TokenFactory.ts
+      entities:
+        - TokenFactory
+      abis:
+        - name: TokenFactory
+          file: ./abis/TokenFactory.json
+      eventHandlers:
+        - event: DeployedTERC20(address,(string,string,string,uint8,uint256))
+          handler: onDeployedTERC20
+        - event: DeployedTERC721(address,(string,string,string,string,uint256))
+          handler: onDeployedTERC721
+
+templates:
+  - kind: ethereum/contract
+    name: TERC20
+    network: mainnet
+    source:
+      abi: TERC20
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/tokens/TERC20.ts
+      entities:
+        - TERC20
+      abis:
+        - name: TERC20
+          file: ./abis/TERC20.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: onTransfer
+        - event: ContractURIChanged(string)
+          handler: onContractURIChanged
+  - kind: ethereum/contract
+    name: TERC721
+    network: mainnet
+    source:
+      abi: TERC721
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/tokens/TERC721.ts
+      entities:
+        - TERC721
+      abis:
+        - name: TERC721
+          file: ./abis/TERC721.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: onTransfer
+        - event: ContractURIChanged(string)
+          handler: onContractURIChanged
